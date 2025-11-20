@@ -27,7 +27,7 @@ func _draw():
 	draw_rect(body_rect, body_color)
 func take_damage(damage):
 	currethp -= damage
-	
+
 	if currethp <= 0:
 		die()
 

@@ -22,7 +22,6 @@ func _process(_delta):
 
 func _on_enemy_timer_timeout() -> void:
 	if enemy_scene == null:
-		print("Ошибка: Не назначена сцена врага!")
 		return
 	var enemy = enemy_scene.instantiate()
 	var viewport_size = get_viewport_rect().size

@@ -95,7 +95,7 @@ func _physics_process(delta):
 
 	global_position.x = clamp(global_position.x, body_radius, screen_size.x - body_radius)
 	global_position.y = clamp(global_position.y, body_radius, screen_size.y - body_radius)
-	
+
 	if is_invincible:
 		queue_redraw()
 
@@ -114,7 +114,7 @@ func take_damage(amount, push_direction = Vector2.ZERO):
 	current_hp -= amount
 	if current_hp < 0:
 		current_hp = 0
-	
+
 	health_updated.emit(current_hp)
 	if push_direction != Vector2.ZERO:
 		knockback = push_direction * knockback_power
@@ -134,7 +134,7 @@ func _input(event):
 			burst_timer.start(burst_fire_delay)
 		elif current_ammo <= 0:
 			start_reload()
-			
+
 	if event.is_action_released("fire"):
 		is_holding_fire = false
 		burst_timer.stop()
@@ -143,22 +143,22 @@ func _input(event):
 func fire():
 	if current_ammo <= 0:
 		return
-	
+
 	if is_reloading:
 		is_reloading = false
 		reload_timer.stop()
-	
+
 	var bullet = bullet_scene.instantiate()
 	get_parent().add_child(bullet)
 	bullet.global_position = muzzle.global_position
 	bullet.rotation = self.global_rotation
-	
+
 	current_ammo -= 1
 	ammo_updated.emit(current_ammo, max_ammo)
-	
+
 	can_shoot = false
 	cooldown_timer.start(click_fire_delay)
-	
+
 	if current_ammo <= 0:
 		burst_timer.stop()
 		start_reload()
@@ -177,7 +177,7 @@ func _on_auto_fire_step():
 func start_reload():
 	if is_reloading or current_ammo >= max_ammo:
 		return
-	
+
 	is_reloading = true
 	reload_timer.start(time_per_bullet)
 
