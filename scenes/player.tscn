@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://defsqg2kc6l2r"]
+
+[ext_resource type="Script" uid="uid://x5vk25jyxrpf" path="res://scripts/player/player.gd" id="1_3vyb7"]
+[ext_resource type="FontFile" uid="uid://c2insjsq4vpgn" path="res://assets/fonts/Nihonium113.ttf" id="2_g2els"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g2els"]
+radius = 12.0
+
+[node name="Player" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_mask = 2
+script = ExtResource("1_3vyb7")
+
+[node name="BulletLabel" type="Label" parent="CharacterBody2D"]
+offset_left = -6.0
+offset_top = -40.0
+offset_right = 8.0
+offset_bottom = -12.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_g2els")
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CircleShape2D_g2els")
+
+[node name="Muzzle" type="Marker2D" parent="CharacterBody2D"]
+position = Vector2(12, 0)

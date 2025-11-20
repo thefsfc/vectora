@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://tjcdornnc207"]
+
+[ext_resource type="Script" uid="uid://bsteevxl541iu" path="res://scripts/square_enemy/square_enemy.gd" id="1_wpb4l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8e6ga"]
+size = Vector2(1, 1)
+
+[node name="SquareEnemy" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+script = ExtResource("1_wpb4l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.9073486e-06, -5.9604645e-08)
+scale = Vector2(10, 10)
+shape = SubResource("RectangleShape2D_8e6ga")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1, 1)
+rect = Rect2(-2, -2, 2, 2)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

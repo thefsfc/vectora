@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://cv0t3is6w8ldx"]
+
+[ext_resource type="Script" uid="uid://d4mqfwsdj7idk" path="res://scripts/info/info.gd" id="1_1t52y"]
+[ext_resource type="FontFile" uid="uid://c2insjsq4vpgn" path="res://assets/fonts/Nihonium113.ttf" id="1_6cmwp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1t52y"]
+bg_color = Color(0.9607843, 0.61960787, 0.043137256, 1)
+corner_detail = 1
+
+[node name="Info" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1t52y")
+
+[node name="InfoButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -56.0
+offset_right = 56.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_6cmwp")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_1t52y")
+text = "<"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -94.0
+offset_right = 94.0
+offset_bottom = 91.0
+grow_horizontal = 2
+
+[node name="MainInfo" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Info"
+horizontal_alignment = 1
+
+[node name="Info" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "CONTROLS:
+W / A / S / D — Move
+Mouse — Aim & Shoot
+F11 — Toggle Fullscreen
+CTRL + R — Restart Game
+ESC — Go To Main Menu
+DESCRIPTION:
+A prototype of a simple, minimalist top-down bullet-hell arcade game.
+
+Version 0.1
+"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="InfoButton" to="." method="_on_info_button_pressed"]
