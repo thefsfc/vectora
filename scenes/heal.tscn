@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b12vfewowe4i5"]
+
+[ext_resource type="Script" uid="uid://l2gnbqr2c0wc" path="res://scripts/heal/heal.gd" id="1_iej0i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8vb04"]
+size = Vector2(2, 2)
+
+[node name="Heal" type="Area2D"]
+z_index = -1
+collision_layer = 8
+script = ExtResource("1_iej0i")
+body_radius = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_8vb04")
+
+[node name="HealDespawnTimer" type="Timer" parent="."]
+wait_time = 20.0
+autostart = true
+
+[connection signal="timeout" from="HealDespawnTimer" to="." method="_on_heal_despawn_timer_timeout"]
