@@ -54,12 +54,12 @@ W / A / S / D — Move
 Mouse — Aim & Shoot
 F11 — Toggle Fullscreen
 CTRL + R — Restart Game
+P — Pause Game
 ESC — Go To Main Menu
 DESCRIPTION:
 A prototype of a simple, minimalist top-down bullet-hell arcade game.
 
-Version 0.2
-"
+Version 0.2"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="InfoButton" to="." method="_on_info_button_pressed"]

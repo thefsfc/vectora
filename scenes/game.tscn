@@ -1,12 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://cx614ed3tnf1w"]
+[gd_scene load_steps=16 format=3 uid="uid://cx614ed3tnf1w"]
 
 [ext_resource type="Script" uid="uid://t8nl5cfxhuin" path="res://scripts/game/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://defsqg2kc6l2r" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://tjcdornnc207" path="res://scenes/square_enemy.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://e62g6wpjy1h5" path="res://scripts/game/system.gd" id="4_gee14"]
 [ext_resource type="FontFile" uid="uid://c2insjsq4vpgn" path="res://assets/fonts/Nihonium113.ttf" id="4_lbhrr"]
 [ext_resource type="Script" uid="uid://c1nlstr0tuwpb" path="res://scripts/game/hp_label.gd" id="4_p57ef"]
 [ext_resource type="Script" uid="uid://dsqpg4ae5tjh3" path="res://scripts/game/fps_label.gd" id="5_iywne"]
 [ext_resource type="PackedScene" uid="uid://b12vfewowe4i5" path="res://scenes/heal.tscn" id="7_u5sy4"]
+[ext_resource type="Script" uid="uid://dqqvpg07y6eg" path="res://scripts/game/reload.gd" id="9_vtaks"]
+[ext_resource type="Script" uid="uid://jk26lqs5raon" path="res://scripts/game/main_menu.gd" id="10_kvpfn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbhrr"]
 bg_color = Color(0.05882353, 0.21176471, 0.2509804, 1)
@@ -24,22 +27,45 @@ border_color = Color(1, 1, 1, 1)
 script/source = "extends ProgressBar
 "
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gee14"]
+bg_color = Color(0.9607843, 0.61960787, 0.043137256, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0tnpc"]
+bg_color = Color(0.2784314, 0.33333334, 0.4117647, 1)
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lnu2h")
 enemy_scene = ExtResource("2_yqjtg")
 heal_scene = ExtResource("7_u5sy4")
 
-[node name="HPLabel" type="Label" parent="."]
+[node name="System" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("4_gee14")
+
+[node name="Player" parent="." instance=ExtResource("1_uwrxv")]
+position = Vector2(427, 240)
+
+[node name="EnemyTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="HealSpawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HPLabel" type="Label" parent="UILayer"]
 z_index = 1
 offset_left = 101.0
 offset_top = 1.0
 offset_right = 115.0
 offset_bottom = 15.0
 theme_override_fonts/font = ExtResource("4_lbhrr")
-text = "20"
+text = "HP"
 script = ExtResource("4_p57ef")
 
-[node name="FPSLabel" type="Label" parent="."]
+[node name="FPSLabel" type="Label" parent="UILayer"]
 z_index = 1
 offset_top = 16.0
 offset_right = 45.0
@@ -48,7 +74,7 @@ theme_override_fonts/font = ExtResource("4_lbhrr")
 text = "FPS"
 script = ExtResource("5_iywne")
 
-[node name="HPBar" type="ProgressBar" parent="."]
+[node name="HPBar" type="ProgressBar" parent="UILayer"]
 z_index = 1
 offset_right = 100.0
 offset_bottom = 16.0
@@ -58,16 +84,58 @@ value = 40.0
 show_percentage = false
 script = SubResource("GDScript_lnu2h")
 
-[node name="Player" parent="." instance=ExtResource("1_uwrxv")]
-position = Vector2(427, 240)
+[node name="GameOverScreen" type="ColorRect" parent="UILayer"]
+process_mode = 2
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
 
-[node name="EnemyTimer" type="Timer" parent="."]
-wait_time = 0.2
-autostart = true
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HealSpawnTimer" type="Timer" parent="."]
-wait_time = 15.0
-autostart = true
+[node name="GameOverLabel" type="Label" parent="UILayer/GameOverScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UILayer/GameOverScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Reload" type="Button" parent="UILayer/GameOverScreen/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(112, 20)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_gee14")
+text = "Restart"
+script = ExtResource("9_vtaks")
+
+[node name="MainMenu" type="Button" parent="UILayer/GameOverScreen/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_0tnpc")
+text = "Main Menu"
+script = ExtResource("10_kvpfn")
 
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
 [connection signal="timeout" from="HealSpawnTimer" to="." method="_on_heal_spawn_timer_timeout"]
+[connection signal="pressed" from="UILayer/GameOverScreen/VBoxContainer/HBoxContainer/Reload" to="UILayer/GameOverScreen/VBoxContainer/HBoxContainer/Reload" method="_on_pressed"]
+[connection signal="pressed" from="UILayer/GameOverScreen/VBoxContainer/HBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="UILayer/GameOverScreen/VBoxContainer/HBoxContainer/MainMenu" to="UILayer/GameOverScreen/VBoxContainer/HBoxContainer/MainMenu" method="_on_pressed"]

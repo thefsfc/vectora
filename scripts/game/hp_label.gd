@@ -1,6 +1,6 @@
 extends Label
 
-@onready var player_character = $"../Player/CharacterBody2D"
+@onready var player_character = $"../../Player/CharacterBody2D"
 
 func _ready():
 	text = str(player_character.current_hp) 
