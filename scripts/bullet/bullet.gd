@@ -8,7 +8,6 @@ extends Area2D
 
 func _ready():
 	body_entered.connect(_on_body_entered)
-	pass
 
 func _draw():
 	draw_circle(Vector2.ZERO, body_radius, body_color)

@@ -3,6 +3,13 @@ extends Node2D
 @onready var player_character = $Player/CharacterBody2D
 @onready var hp_bar = $HPBar
 @export var enemy_scene: PackedScene 
+@export var heal_scene: PackedScene
+@export var max_heals = 10
+# TODO: Make the game progressively more difficult as you play
+@onready var HealSpawnTimer = $HealSpawnTimer
+@onready var EnemyTimer = $EnemyTimer 
+
+# TODO: Gameover screen
 
 func _ready():
 	hp_bar.max_value = player_character.max_hp
@@ -12,6 +19,10 @@ func _ready():
 func _on_player_health_updated(new_health_value):
 	hp_bar.value = new_health_value
 	if new_health_value <= 0:
+		call_deferred("_restart_game")
+
+func _restart_game():
+	if get_tree():
 		get_tree().reload_current_scene()
 
 func _process(_delta):
@@ -55,3 +66,14 @@ func get_pos_by_side(side: int, viewport_size: Vector2) -> Vector2:
 			pos.x = viewport_size.x + offset
 			pos.y = randf_range(0, viewport_size.y)
 	return pos
+
+func _on_heal_spawn_timer_timeout() -> void:
+	if heal_scene == null:
+		return
+	var heal = heal_scene.instantiate()
+	var margin = 30.0 
+	var viewport_size = get_viewport_rect().size
+	var random_x = randf_range(0, viewport_size.x - margin)
+	var random_y = randf_range(0, viewport_size.y - margin)
+	heal.position = Vector2(random_x, random_y)
+	add_child(heal)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cx614ed3tnf1w"]
+[gd_scene load_steps=11 format=3 uid="uid://cx614ed3tnf1w"]
 
 [ext_resource type="Script" uid="uid://t8nl5cfxhuin" path="res://scripts/game/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://defsqg2kc6l2r" path="res://scenes/player.tscn" id="1_uwrxv"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://c2insjsq4vpgn" path="res://assets/fonts/Nihonium113.ttf" id="4_lbhrr"]
 [ext_resource type="Script" uid="uid://c1nlstr0tuwpb" path="res://scripts/game/hp_label.gd" id="4_p57ef"]
 [ext_resource type="Script" uid="uid://dsqpg4ae5tjh3" path="res://scripts/game/fps_label.gd" id="5_iywne"]
+[ext_resource type="PackedScene" uid="uid://b12vfewowe4i5" path="res://scenes/heal.tscn" id="7_u5sy4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbhrr"]
 bg_color = Color(0.05882353, 0.21176471, 0.2509804, 1)
@@ -26,6 +27,7 @@ script/source = "extends ProgressBar
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lnu2h")
 enemy_scene = ExtResource("2_yqjtg")
+heal_scene = ExtResource("7_u5sy4")
 
 [node name="HPLabel" type="Label" parent="."]
 z_index = 1
@@ -63,4 +65,9 @@ position = Vector2(427, 240)
 wait_time = 0.2
 autostart = true
 
+[node name="HealSpawnTimer" type="Timer" parent="."]
+wait_time = 15.0
+autostart = true
+
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
+[connection signal="timeout" from="HealSpawnTimer" to="." method="_on_heal_spawn_timer_timeout"]

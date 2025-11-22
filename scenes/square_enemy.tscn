@@ -11,7 +11,7 @@ script = ExtResource("1_wpb4l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.9073486e-06, -5.9604645e-08)
-scale = Vector2(10, 10)
+scale = Vector2(11, 11)
 shape = SubResource("RectangleShape2D_8e6ga")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

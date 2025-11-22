@@ -108,7 +108,7 @@ func check_enemy_collision():
 			take_damage(collider.damage_to_player, push_direction)
 
 func take_damage(amount, push_direction = Vector2.ZERO):
-	if is_invincible:
+	if current_hp <= 0 or is_invincible:
 		return
 
 	current_hp -= amount
@@ -116,11 +116,22 @@ func take_damage(amount, push_direction = Vector2.ZERO):
 		current_hp = 0
 
 	health_updated.emit(current_hp)
+
+	if current_hp <= 0:
+		return
+
 	if push_direction != Vector2.ZERO:
 		knockback = push_direction * knockback_power
 	is_invincible = true
 	invincibility_timer.start(invulnerability_time)
 	queue_redraw()
+
+func take_heal(amount) -> bool:
+	if current_hp >= max_hp:
+		return false
+	current_hp = min(current_hp + amount, max_hp)
+	health_updated.emit(current_hp)
+	return true
 
 func _on_invincibility_expired():
 	is_invincible = false
