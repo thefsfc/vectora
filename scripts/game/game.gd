@@ -12,9 +12,12 @@ extends Node2D
 @export var base_heal_time: float = 5.0
 @export var start_max_heals: int = 10 
 
+var game_over: bool = false
+
 var game_time: float = 0.0
 var current_heals = 0
 var base_enemy_spawn_time = 2.0 
+
 
 func _ready():
 	game_over_screen.visible = false
@@ -29,8 +32,10 @@ func _on_player_health_updated(new_health_value):
 		player_character.queue_free()
 		call_deferred("show_game_over")
 func show_game_over():
+	game_over = true
 	game_over_screen.visible = true
-	get_tree().paused = true    
+	get_tree().paused = true
+	
 
 func _process(delta):
 	game_time += delta
