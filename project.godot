@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Vectora"
 config/description="A minimalistic bullet hell game."
-config/version="0.2"
+config/version="0.2.1"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.5", "Mobile")
 run/max_fps=60
